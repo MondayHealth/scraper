@@ -6,3 +6,5 @@ task :environment do
   Bundler.require :default
   require_relative 'environment'
 end
+
+task 'resque:setup' => :environment
