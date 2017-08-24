@@ -1,0 +1,1 @@
+class MissingUpstreamDataError < StandardError; end
