@@ -1,6 +1,10 @@
+require_relative '../concerns/logged_job'
+
 module Jobs
   module Scrapers
     class Base
+      extend Jobs::Concerns::LoggedJob
+      
       def self.page_source_for_url(url)
         ssdb = SSDB.new url: "ssdb://#{ENV['SSDB_HOST']}:#{ENV['SSDB_PORT']}"
         unless ssdb.exists(url)
