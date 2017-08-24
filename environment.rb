@@ -8,4 +8,5 @@ Dir[File.join("app", "**/*.rb")].each do |file_path|
   require_relative file_path
 end
 
+Resque.redis = "#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}"
 Resque.redis.namespace = "resque:scraper"
