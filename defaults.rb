@@ -6,4 +6,4 @@ ENV['REDIS_PASS'] ||= ""
 ENV['SSDB_HOST'] ||= "localhost"
 ENV['SSDB_PORT'] ||= "8888"
 ENV['SSDB_PASS'] ||= ""
-ENV['DATABASE_URL'] ||= 'postgres://localhost/crawler'
+ENV['DATABASE_URL'] ||= 'postgres://localhost/monday'
