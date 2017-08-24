@@ -1,3 +1,4 @@
+ENV['QUEUE'] ||= '*'
 ENV['RACK_ENV'] ||= 'development'
 ENV['REDIS_HOST'] ||= "localhost"
 ENV['REDIS_PORT'] ||= "6379"
