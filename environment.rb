@@ -2,6 +2,7 @@ require_relative 'defaults'
 
 require 'core'
 require 'otr-activerecord'
+require 'activerecord-import'
 require 'ssdb'
 
 OTR::ActiveRecord.configure_from_file! "config/database.yml"

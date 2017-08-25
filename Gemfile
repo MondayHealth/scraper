@@ -12,3 +12,5 @@ gem 'pg'
 gem 'otr-activerecord'
 
 gem 'nokogiri'
+
+gem 'activerecord-import'
