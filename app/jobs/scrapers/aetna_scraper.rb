@@ -10,8 +10,8 @@ module Jobs
         CSV.open('aetna.csv', 'a') do |csv|
           doc.css('#providersTable .result_location_top_public').each do |td|
             row = extract_doctor(td)
-            row.unshift(plan.provider.id)
             row.unshift(plan_id)
+            row.unshift(plan.provider.id)
             csv << row
           end
         end
