@@ -10,3 +10,5 @@ gem 'resque'
 
 gem 'pg'
 gem 'otr-activerecord'
+
+gem 'nokogiri'

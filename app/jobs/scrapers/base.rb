@@ -1,9 +1,20 @@
+require 'nokogiri'
+require 'csv'
+
 require_relative '../concerns/logged_job'
 
 module Jobs
   module Scrapers
     class Base
       extend Jobs::Concerns::LoggedJob
+
+      def self.initialize_csv(path)
+        unless File.exists?(path)
+          CSV.open(path, 'w+') do |csv|
+            csv << ['provider_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
+          end
+        end
+      end
       
       def self.page_source_for_url(url)
         ssdb = SSDB.new url: "ssdb://#{ENV['SSDB_HOST']}:#{ENV['SSDB_PORT']}"
