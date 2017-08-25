@@ -4,6 +4,8 @@ module Jobs
   module Scrapers
     class AetnaScraper < Base
       def self.perform(plan_id, url)
+        STDOUT.write("Performign #{AetnaScraper} from #{__FILE__}")
+
         plan = Plan.find(plan_id)
         doc = Nokogiri::HTML.parse(self.page_source_for_url(url))
         self.initialize_csv('aetna.csv')
