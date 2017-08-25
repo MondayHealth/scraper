@@ -9,7 +9,7 @@ module Jobs
         if doctor.nil?
           create_doctor_from_provider_record!(provider_record)
         else
-          # we'll need to flag the doctor for review here
+          provider_record.update_column('doctor_id', doctor.id) if provider_record.doctor_id != doctor.id
         end
       end
     end
@@ -26,6 +26,7 @@ module Jobs
           specialty = Specialty.where(name: specialty_name).first_or_create!
           doctor.specialties << specialty unless doctor.specialties.include?(specialty)
         end
+        provider_record.update_column('doctor_id', doctor.id)
       end
     end
   end
