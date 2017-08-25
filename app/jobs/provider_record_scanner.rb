@@ -3,12 +3,15 @@ module Jobs
     def self.perform provider_id
       provider = Provider.find(provider_id)
       provider.provider_records.find_each do |provider_record|
+        STDOUT.puts "Scanning provider record (#{provider_record.id})"
         doctor = Doctor.where(first_name: provider_record.first_name, 
                               last_name: provider_record.last_name, 
                               license: provider_record.license).first
         if doctor.nil?
+          STDOUT.puts "Creating new doctor from provider record (#{provider_record.id})"
           create_doctor_from_provider_record!(provider_record)
         else
+          STDOUT.puts "Updating doctor #{doctor.first_name} #{doctor.last_name} (#{doctor.id}) with link to provider record (#{provider_record.id})"
           provider_record.update_column('doctor_id', doctor.id) if provider_record.doctor_id != doctor.id
         end
       end
