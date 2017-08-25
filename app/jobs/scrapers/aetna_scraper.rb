@@ -8,8 +8,9 @@ module Jobs
 
         plan = Plan.find(plan_id)
         doc = Nokogiri::HTML.parse(self.page_source_for_url(url))
-        self.initialize_csv('aetna.csv')
-        CSV.open('aetna.csv', 'a') do |csv|
+        csv_path = "#{ENV['STORAGE_DIRECTORY']}/aetna.csv"
+        self.initialize_csv(csv_path)
+        CSV.open(csv_path, 'a') do |csv|
           doc.css('#providersTable .result_location_top_public').each do |td|
             row = extract_doctor(td)
             row.unshift(plan_id)
