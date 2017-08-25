@@ -1,6 +1,6 @@
 GIT
   remote: https://eecde58368a7e9b25befe79b8fc86b29d3e94b0e:x-oauth-basic@github.com/MondayHealth/core.git
-  revision: efbfa0d5e70163a5c6b131a0cd1062faa1575f6f
+  revision: 79211942f2acb276ceb90e01da88f02bdc1d4740
   specs:
     core (0.0.2)
       otr-activerecord (= 1.2.4)

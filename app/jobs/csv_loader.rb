@@ -3,7 +3,12 @@ module Jobs
     def self.perform(path)
       provider_records = []
       CSV.foreach(path, headers: true) do |row|
-        provider_records << ProviderRecord.new(row.to_h)
+        provider_record = ProviderRecord.new(row.to_h)
+        if provider_record.valid?
+          provider_records << provider_record
+        else
+          STDOUT.write("Invalid provider record: #{row.inspect}")
+        end
       end
       columns = ProviderRecord.attribute_names
       columns.delete('id')
