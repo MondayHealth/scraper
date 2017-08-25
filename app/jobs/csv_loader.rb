@@ -1,5 +1,7 @@
 module Jobs
   class CsvLoader
+    @queue = :scraper_csv_loader
+
     def self.perform(path)
       provider_records = []
       CSV.foreach(path, headers: true) do |row|

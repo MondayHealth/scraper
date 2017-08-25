@@ -1,5 +1,7 @@
 module Jobs
   class CsvCleaner
+    @queue = :scraper_csv_cleaner
+
     def self.perform(path)
       unsorted_csv = CSV.read(path, headers: true)
       sorted_csv = unsorted_csv.sort_by { |row| [row['first_name'].to_s, row['last_name'].to_s, row['accepted_plan_ids']] }
