@@ -5,13 +5,14 @@ require_relative '../concerns/logged_job'
 
 module Jobs
   module Scrapers
+    CSV_FIELDS = ['provider_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
     class Base
       extend Jobs::Concerns::LoggedJob
 
       def self.initialize_csv(path)
         unless File.exists?(path)
           CSV.open(path, 'w+') do |csv|
-            csv << ['provider_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
+            csv << CSV_FIELDS
           end
         end
       end
