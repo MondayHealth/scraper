@@ -13,14 +13,20 @@ module Jobs
         CSV.open(csv_path, 'a') do |csv|
           doc.css('#providersTable .result_location_top_public').each do |td|
             row = extract_doctor(td)
-            row.unshift(plan_id)
-            row.unshift(plan.provider.id)
-            csv << row
+            if row
+              row.unshift(plan_id)
+              row.unshift(plan.provider.id)
+              csv << row
+            end
           end
         end
       end
 
       def self.extract_doctor(td)
+        # In rare cases some rows have corrupt data, and the names aren't linked in a consistent
+        # way for us to scrape. We skip them here so they don't bring down the job.
+        return nil if td.at_css('.links').nil?
+
         # name and license is the first link in the cells
         doctor_name_and_license = td.at_css('.links').content
 
