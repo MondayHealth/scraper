@@ -7,6 +7,7 @@ gem 'rake'
 
 gem 'ssdb'
 gem 'resque'
+gem 'resque-cleaner'
 
 gem 'pg'
 gem 'otr-activerecord'
