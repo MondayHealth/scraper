@@ -11,8 +11,10 @@ module Jobs
         STDOUT.puts "Creating new doctor from provider record (#{provider_record.id})"
         create_doctor_from_provider_record!(provider_record)
       else
-        STDOUT.puts "Updating doctor #{doctor.first_name} #{doctor.last_name} (#{doctor.id}) with link to provider record (#{provider_record.id})"
-        provider_record.update_column('doctor_id', doctor.id) if provider_record.doctor_id != doctor.id
+        if provider_record.doctor.nil?
+          STDOUT.puts "Mapping provider record to doctor #{doctor.first_name} #{doctor.last_name} (#{doctor.id}) with link to provider record (#{provider_record.id})"
+          provider_record.update_column('doctor_id', doctor.id) if provider_record.doctor_id != doctor.id
+        end
       end
     end
 
