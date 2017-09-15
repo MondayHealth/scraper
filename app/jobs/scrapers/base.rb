@@ -24,6 +24,11 @@ module Jobs
         end
         ssdb.get(url)
       end
+
+      def self.valid_license_type?(license_type)
+        @license_type_blacklist ||= open("config/license_type_blacklist.txt").read.split("\n").map(&:strip)
+        return !@license_type_blacklist.include?(license_type.to_s)
+      end
     end
   end
 end

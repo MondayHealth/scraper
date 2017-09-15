@@ -53,6 +53,9 @@ module Jobs
         row = []
         names = doctor_name_and_license.split(", ")
         doctor_license = names.last
+        unless valid_license_type?(doctor_license)
+          return nil
+        end
         doctor_first_name = names[1]
         doctor_last_name = names.first
         row << doctor_first_name
