@@ -32,8 +32,8 @@ module Helpers
 
           match_data = normalized_name.match(SPECIALTIES_AGE_RANGE_REGEXP)
 
-          # If there's no age range match, we return 'General Practice'
-          return 'General Practice' if match_data.nil?
+          # If there's no age range match, we return the specialty itself
+          return normalized_name if match_data.nil?
 
           lower_age = match_data[1].to_i
           upper_age = match_data[2].to_i
