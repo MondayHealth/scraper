@@ -3,6 +3,8 @@ require_relative 'base'
 module Jobs
   module Scrapers
     class AetnaScraper < Base
+      include Helpers::Scrapers::SpecialtiesHelper
+
       def self.perform(plan_id, url)
         STDOUT.write("Performing #{AetnaScraper} from #{__FILE__}")
 
@@ -45,6 +47,7 @@ module Jobs
         end
         elem = elem.next
         specialties = elem.content.gsub(/\s+/, ' ').strip
+        specialties = specialties.split(/;\s*/).map { |s| normalize_specialty(s)}.join(';')
 
         extract_info_for_row(doctor_name_and_license, address, phone, specialties)
       end
