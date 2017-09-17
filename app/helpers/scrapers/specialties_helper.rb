@@ -16,6 +16,16 @@ module Helpers
             return normalized_name.sub(SPECIALTIES_AGE_RANGE_REGEXP, '').strip
           end
 
+          # if we find a match for the generic specialties, return them without 'Clinical'
+          case normalized_name
+          when /Child (?:&|and) Adolescent/i
+            return 'Child & Adolescent'
+          when /Geriatric/i
+            return 'Geriatric'
+          when /General Practice/i
+            return 'General Practice'
+          end
+
           # for the generic “Clinical X” specializations, we’ll map the age ranges 
           # to the three sub-specialties below, and can otherwise discard the age 
           # range before storing the data
