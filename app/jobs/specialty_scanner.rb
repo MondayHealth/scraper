@@ -11,7 +11,12 @@ module Jobs
           canonical_alias = Specialty.where(name: row["alias"]).first_or_create!
           canonical_alias.is_canonical = true
           canonical_alias.save! if canonical_alias.changed?
-          specialty.alias = canonical_alias
+
+          # Just in case some specialty aliases have duplicates, avoid circular references
+          unless specialty.is_canonical?
+            specialty.alias = canonical_alias
+          end
+
           specialty.save!
           STDOUT.puts "Mapped specialty #{row["name"]} to alias #{row["alias"]}"
         end
