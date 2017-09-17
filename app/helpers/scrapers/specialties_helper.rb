@@ -9,7 +9,7 @@ module Helpers
 
       module ClassMethods
         def normalize_specialty(name)
-          normalized_name = name.strip
+          normalized_name = name.strip.gsub(/\s+and\s+/, ' & ')
           # for anything other than the generic “Clinical, Psychiactric, and Licensed X” specializations, 
           # we can discard the age range before storing the data.
           unless normalized_name =~ /^(?:Clinical|Psychi|Licensed)/i
