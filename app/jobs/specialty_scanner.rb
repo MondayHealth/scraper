@@ -13,7 +13,7 @@ module Jobs
           canonical_alias.save! if canonical_alias.changed?
 
           # Just in case some specialty aliases have duplicates, avoid circular references
-          unless specialty.is_canonical?
+          unless specialty == canonical_alias
             specialty.alias = canonical_alias
           end
 
