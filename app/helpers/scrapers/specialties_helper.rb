@@ -1,7 +1,7 @@
 module Helpers
   module Scrapers
     module SpecialtiesHelper
-      SPECIALTIES_AGE_RANGE_REGEXP = /(?:\s+\-\s+)?([0-9]+)\s*(?:(?:-|to)\s*([0-9]+)|and (?:older|up))/
+      SPECIALTIES_AGE_RANGE_REGEXP = /(?:\s+\-\s+)?([0-9]+|newborn)\s*(?:(?:-|to)\s*([0-9]+)|and (?:older|up))/i
 
       def self.included(base)
         base.extend(ClassMethods)
@@ -12,7 +12,7 @@ module Helpers
           normalized_name = name.strip
           # for anything other than the generic “Clinical, Psychiactric, and Licensed X” specializations, 
           # we can discard the age range before storing the data.
-          unless normalized_name =~ /^(Clinical|Psychi|Licensed)/
+          unless normalized_name =~ /^(?:Clinical|Psychi|Licensed)/i
             return normalized_name.sub(SPECIALTIES_AGE_RANGE_REGEXP, '').strip
           end
 
@@ -35,10 +35,11 @@ module Helpers
           # If there's no age range match, we return the specialty itself
           return normalized_name if match_data.nil?
 
+          # when lower_age is 'newborn', to_i will map the string to 0
           lower_age = match_data[1].to_i
-          upper_age = match_data[2].to_i
 
-          # covers the 'and older' case
+          # we have an additional check on upper_age to cover the 'and older' case
+          upper_age = match_data[2].to_i
           upper_age = 100 if match_data[2].nil?
 
           # 'Child & Adolescent' is any age range that falls exclusively into the 0-21 range, e.g. 13 to 17, 2 to 21, Newborn to 21, etc.
