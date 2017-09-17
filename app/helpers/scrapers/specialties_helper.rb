@@ -10,9 +10,9 @@ module Helpers
       module ClassMethods
         def normalize_specialty(name)
           normalized_name = name.strip
-          # for anything other than the generic “Clinical X” specializations, 
+          # for anything other than the generic “Clinical, Psychiactric, and Licensed X” specializations, 
           # we can discard the age range before storing the data.
-          unless normalized_name =~ /^Clinical/
+          unless normalized_name =~ /^(Clinical|Psychi|Licensed)/
             return normalized_name.sub(SPECIALTIES_AGE_RANGE_REGEXP, '').strip
           end
 
@@ -26,7 +26,7 @@ module Helpers
             return 'General Practice'
           end
 
-          # for the generic “Clinical X” specializations, we’ll map the age ranges 
+          # for the generic specializations, we’ll map the age ranges 
           # to the three sub-specialties below, and can otherwise discard the age 
           # range before storing the data
 
