@@ -1,7 +1,7 @@
 module Helpers
   module Scrapers
     module SpecialtiesHelper
-      SPECIALTIES_AGE_RANGE_REGEXP = /(?:\s+\-\s+)?([0-9]+|newborn)\s*(?:(?:-|to)\s*([0-9]+)|and (?:older|up))/i
+      SPECIALTIES_AGE_RANGE_REGEXP = /(?:\s+\-\s+)?([0-9]+|newborn)\s*(?:(?:-|to)\s*([0-9]+)|(?:and|&) (?:older|up))/i
 
       def self.included(base)
         base.extend(ClassMethods)
