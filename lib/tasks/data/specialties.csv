@@ -6,24 +6,24 @@ Addictions Specialist,Addiction
 Clinical Social Worker,General Practice
 Child & Adolescent,Child & Adolescent
 Detox,Addiction
-Drug and Alcohol Counselor,Addiction
+Drug & Alcohol Counselor,Addiction
 Suboxone Certified - Behavioral Health,Addiction
 Suboxone Certified - Medicine,Addiction
 Substance Abuse Professional,Addiction
-Adolescent and Young Adult Medicine,Child and Adolescent
-Adolescent Medicine,Child and Adolescent
-Child and Adolescent Specialist,Child and Adolescent
-Child Psychiatry,Child and Adolescent
-Developmental Medicine,Child and Adolescent
-Learning Disabilities,Child and Adolescent
-NeuroDevelopmental Disabilities,Child and Adolescent
-Pediatrics,Child and Adolescent
-Pediatrics - Newborn to 21,Child and Adolescent
-Licensed Professional Counselor,Child and Adolescent
-Psychiatric Nurse,Child and Adolescent
-Psychiatry,Child and Adolescent
-"Psychiatry, Child & Adolescent",Child and Adolescent
-"Psychiatry, Child & Adolescent - Newborn to 21",Child and Adolescent
+Adolescent & Young Adult Medicine,Child & Adolescent
+Adolescent Medicine,Child & Adolescent
+Child & Adolescent Specialist,Child & Adolescent
+Child Psychiatry,Child & Adolescent
+Developmental Medicine,Child & Adolescent
+Learning Disabilities,Child & Adolescent
+NeuroDevelopmental Disabilities,Child & Adolescent
+Pediatrics,Child & Adolescent
+Pediatrics - Newborn to 21,Child & Adolescent
+Licensed Professional Counselor,Child & Adolescent
+Psychiatric Nurse,Child & Adolescent
+Psychiatry,Child & Adolescent
+"Psychiatry, Child & Adolescent",Child & Adolescent
+"Psychiatry, Child & Adolescent - Newborn to 21",Child & Adolescent
 Anesthesiology,Co-Morbidity
 Bariatric Surgery,Co-Morbidity
 Behavioral Health Rehabilitative Services,Co-Morbidity
@@ -60,7 +60,7 @@ Surgery,Co-Morbidity
 "Surgery, Neurological",Co-Morbidity
 "Trauma, Surgical Critical Care",Co-Morbidity
 Vascular Neurology,Co-Morbidity
-Anxiety and Stress Management Counseling,Anxiety
+Anxiety & Stress Management Counseling,Anxiety
 Anxiety Disorders,Anxiety
 Applied Behavioral Analysis,ABA
 Attention Deficit Disorder,ADD / ADHD
@@ -72,10 +72,10 @@ Biofeedback,Psychological Testing
 Neuropsych Testing,Psychological Testing
 Psychological Testing,Psychological Testing
 Certified Employee Assistance Professional,EAP
-Child Abuse,Trauma and Abuse
-Domestic Violence,Trauma and Abuse
-Post-Traumatic Stress Disorder,Trauma and Abuse
-Sexual/Child Abuse,Trauma and Abuse
+Child Abuse,Trauma & Abuse
+Domestic Violence,Trauma & Abuse
+Post-Traumatic Stress Disorder,Trauma & Abuse
+Sexual/Child Abuse,Trauma & Abuse
 Christian Counseling,Religious Counseling
 Clinical Neurophysiology,Neuropsychology
 Neurology,Neuropsychology
@@ -83,7 +83,7 @@ Neurology & Psychiatry,Neuropsychology
 "Neurology, Child",Neuropsychology
 "Neurology, Child - Newborn to 21",Neuropsychology
 Neuromuscular Medicine Psychiatry & Neurology,Neuropsychology
-Neuromusculoskeletal Medicine and OMM,Neuropsychology
+Neuromusculoskeletal Medicine & OMM,Neuropsychology
 Neuropsychologist,Neuropsychology
 Codependency Issues,Codependency
 Cognitive Behavioral Therapy,CBT / DBT
@@ -91,9 +91,9 @@ Dialectic Behavioral Therapy,CBT / DBT
 Crisis Intervention,Crisis
 Depression,Depression
 Dissociative Disorder,Dissociative
-Eating Disorder Specialist,Food and Eating Disorders
-Obesity Medicine,Food and Eating Disorders
-Erectile Dysfunction (ED),Sex and Intimacy
+Eating Disorder Specialist,Food & Eating Disorders
+Obesity Medicine,Food & Eating Disorders
+Erectile Dysfunction (ED),Sex & Intimacy
 Family Practice,Family Issues
 Parenting Issues,Family Issues
 Gay/Lesbian Counseling,LGBTQ
@@ -113,10 +113,10 @@ Psychiatry,Geriatric
 Grief Counseling,Grief
 Group Therapy,Group Therapy
 Hypnotherapy,Hypnotherapy
-Life Management Counseling,Life and Career Counseling
-Mindfulness,Life and Career Counseling
-Stress Management,Life and Career Counseling
-Workplace Coaching,Life and Career Counseling
+Life Management Counseling,Life & Career Counseling
+Mindfulness,Life & Career Counseling
+Stress Management,Life & Career Counseling
+Workplace Coaching,Life & Career Counseling
 Marriage/Family Focus,Relationship Issues
 Marriage/Family Therapist,Relationship Issues
 Marriage/Family Therapist - Newborn to 64,Relationship Issues
