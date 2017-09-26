@@ -4,33 +4,33 @@ module Jobs
 
     def self.perform(provider_record_id)
       provider_record = ProviderRecord.find(provider_record_id)
-      doctor = Doctor.where(first_name: provider_record.first_name, 
+      provider = Provider.where(first_name: provider_record.first_name, 
                             last_name: provider_record.last_name, 
                             license: provider_record.license).first
-      if doctor.nil?
-        STDOUT.puts "Creating new doctor from provider record (#{provider_record.id})"
-        create_doctor_from_provider_record!(provider_record)
+      if provider.nil?
+        STDOUT.puts "Creating new provider from provider record (#{provider_record.id})"
+        create_provider_from_provider_record!(provider_record)
       else
-        if provider_record.doctor.nil?
-          STDOUT.puts "Mapping provider record to doctor #{doctor.first_name} #{doctor.last_name} (#{doctor.id}) with link to provider record (#{provider_record.id})"
-          provider_record.update_column('doctor_id', doctor.id) if provider_record.doctor_id != doctor.id
+        if provider_record.provider.nil?
+          STDOUT.puts "Mapping provider record to provider #{provider.first_name} #{provider.last_name} (#{provider.id}) with link to provider record (#{provider_record.id})"
+          provider_record.update_column('provider_id', provider.id) if provider_record.provider_id != provider.id
         end
       end
     end
 
-    def self.create_doctor_from_provider_record!(provider_record)
-      Doctor.transaction do
-        doctor = Doctor.where(first_name: provider_record.first_name, 
+    def self.create_provider_from_provider_record!(provider_record)
+      Provider.transaction do
+        provider = Provider.where(first_name: provider_record.first_name, 
                               last_name: provider_record.last_name, 
                               license: provider_record.license).first_or_create!
-        doctor.locations.where(address: provider_record.address).first_or_create! do |l|
+        provider.locations.where(address: provider_record.address).first_or_create! do |l|
           l.phone = provider_record.phone
         end
         provider_record.specialties.split(/;\s*/).each do |specialty_name|
           specialty = Specialty.where(name: specialty_name).first_or_create!
-          doctor.specialties << specialty unless doctor.specialties.include?(specialty)
+          provider.specialties << specialty unless provider.specialties.include?(specialty)
         end
-        provider_record.update_column('doctor_id', doctor.id)
+        provider_record.update_column('provider_id', provider.id)
       end
     end
 
