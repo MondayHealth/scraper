@@ -54,11 +54,15 @@ module Jobs
 
       def self.extract_info_for_row provider_name_and_license, address, phone, specialties
         row = []
-        names = provider_name_and_license.split(", ")
-        provider_license = names.last
-        unless valid_license_type?(provider_license)
+        names = provider_name_and_license.split(",").map(&:strip)
+       
+        # License is after second comma but will show up as nil sometimes for 
+        # rows, e.g. "Cadet-Mareus, Geredine,"
+        provider_license = names[2]
+        unless provider_license.nil? || valid_license_type?(provider_license)
           return nil
         end
+        
         provider_first_name = names[1]
         provider_last_name = names.first
         row << provider_first_name
