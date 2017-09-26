@@ -3,9 +3,9 @@ module Jobs
 
     @queue = :scraper_provider_record_scanner
 
-    def self.perform provider_id
-      provider = Provider.find(provider_id)
-      provider.provider_records.find_each do |provider_record|
+    def self.perform payor_id
+      payor = Payor.find(payor_id)
+      payor.provider_records.find_each do |provider_record|
         STDOUT.puts "Enqueueing Jobs::ProviderRecordProcessor with [#{provider_record.id}]"
         Resque.enqueue(Jobs::ProviderRecordProcessor, provider_record.id)
       end
