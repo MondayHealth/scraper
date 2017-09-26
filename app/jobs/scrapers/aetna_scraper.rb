@@ -35,7 +35,18 @@ module Jobs
         # skip to element just before the address
         elem = td.at_css('.poi_detailsPage')
         elem = elem.next
-        address = elem.content.gsub(/\s+/, ' ').strip
+
+        # Covers addresses that span multiple lines
+        address = ''
+        while elem && !elem.content.include?("Phone")
+          if elem.name == 'br'
+            address += "\n"
+          else
+            address += elem.content.gsub(/\s+/, ' ').strip
+          end
+          elem = elem.next 
+        end
+        address.strip!
 
         # phone is after a <br> right after address and has text "Phone:"
         elem = elem.next while elem && !elem.content.include?("Phone")
@@ -62,7 +73,7 @@ module Jobs
         unless provider_license.nil? || valid_license_type?(provider_license)
           return nil
         end
-        
+
         provider_first_name = names[1]
         provider_last_name = names.first
         row << provider_first_name
