@@ -17,7 +17,7 @@ module Jobs
             row = extract_doctor(td)
             if row
               row.unshift(plan_id)
-              row.unshift(plan.provider.id)
+              row.unshift(plan.payor.id)
               csv << row
             end
           end

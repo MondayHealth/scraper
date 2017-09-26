@@ -5,7 +5,7 @@ require_relative '../concerns/logged_job'
 
 module Jobs
   module Scrapers
-    CSV_FIELDS = ['provider_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
+    CSV_FIELDS = ['payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
     class Base
       extend Jobs::Concerns::LoggedJob
 
