@@ -6,8 +6,6 @@ module Jobs
       include Helpers::Scrapers::SpecialtiesHelper
 
       def self.perform(plan_id, url)
-        STDOUT.write("Performing #{AetnaScraper} from #{__FILE__}")
-
         plan = Plan.find(plan_id)
         doc = Nokogiri::HTML.parse(self.page_source_for_url(url))
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/aetna.csv"
