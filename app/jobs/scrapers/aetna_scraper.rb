@@ -7,7 +7,7 @@ module Jobs
 
       def self.perform(plan_id, url)
         plan = Plan.find(plan_id)
-        doc = Nokogiri::HTML.parse(self.page_source_for_url(url))
+        doc = Nokogiri::HTML.parse(self.page_source_for_key(url))
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/aetna.csv"
         self.initialize_csv(csv_path)
         CSV.open(csv_path, 'a') do |csv|

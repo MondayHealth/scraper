@@ -17,12 +17,12 @@ module Jobs
         end
       end
       
-      def self.page_source_for_url(url)
+      def self.page_source_for_key(key)
         ssdb = SSDB.new url: "ssdb://#{ENV['SSDB_HOST']}:#{ENV['SSDB_PORT']}"
-        unless ssdb.exists(url)
-          raise MissingUpstreamDataError.new("No data upstream at SSDB server #{ENV['SSDB_HOST']} for URL: #{url}")
+        unless ssdb.exists(key)
+          raise MissingUpstreamDataError.new("No data upstream at SSDB server #{ENV['SSDB_HOST']} for key: #{key}")
         end
-        ssdb.get(url)
+        ssdb.get(key)
       end
 
       def self.valid_license_type?(license_type)
