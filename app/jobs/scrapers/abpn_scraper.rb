@@ -9,7 +9,10 @@ module Jobs
       CERTIFICATE_NUMBER_REGEXP = /Certificate No\. ([0-9])+/
 
       def self.perform(cache_key)
-        puts self.page_source_for_key(cache_key)
+        directory = Directory.find_by(short_name: 'abpn')
+        if directory.nil?
+          raise MissingSourceError.new("Missing ABPN Directory in database. Are you sure the seed data is there?")
+        end
         doc = Nokogiri::HTML.parse(self.page_source_for_key(cache_key))
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/abpn.csv"
         self.initialize_csv(csv_path)
@@ -19,6 +22,7 @@ module Jobs
             if row
               row.unshift(nil) # no plan ID
               row.unshift(nil) # no payor ID
+              row.unshift(directory.id)
               csv << row
             end
           end

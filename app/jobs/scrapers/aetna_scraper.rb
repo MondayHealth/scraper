@@ -16,6 +16,7 @@ module Jobs
             if row
               row.unshift(plan_id)
               row.unshift(plan.payor.id)
+              row.unshift(nil) # no directory ID
               csv << row
             end
           end
