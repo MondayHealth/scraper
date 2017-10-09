@@ -9,14 +9,15 @@ module Jobs
         if provider_record.valid?
           provider_records << provider_record
         else
-          STDOUT.write("Invalid provider record: #{row.inspect}")
+          STDOUT.puts("Invalid provider record: #{row.inspect}")
+          STDOUT.puts(provider_record.errors.inspect)
         end
       end
       columns = ProviderRecord.attribute_names
       columns.delete('id')
       columns.delete('created_at')
       columns.delete('updated_at')
-      options = { on_duplicate_key_update: { conflict_target: [:first_name, :last_name, :payor_id], columns: columns }}
+      options = { on_duplicate_key_update: { conflict_target: [:first_name, :last_name, :payor_id, :directory_id], columns: columns }}
       ProviderRecord.import(provider_records, options)
     end
   end

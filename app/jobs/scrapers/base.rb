@@ -5,7 +5,10 @@ require_relative '../concerns/logged_job'
 
 module Jobs
   module Scrapers
-    CSV_FIELDS = ['payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
+    CSV_FIELDS = ['directory_id', 'payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties', 'certificate_number', 'certified']
+
+    class MissingSourceError < Exception; end
+
     class Base
       extend Jobs::Concerns::LoggedJob
 
@@ -17,12 +20,12 @@ module Jobs
         end
       end
       
-      def self.page_source_for_url(url)
+      def self.page_source_for_key(key)
         ssdb = SSDB.new url: "ssdb://#{ENV['SSDB_HOST']}:#{ENV['SSDB_PORT']}"
-        unless ssdb.exists(url)
-          raise MissingUpstreamDataError.new("No data upstream at SSDB server #{ENV['SSDB_HOST']} for URL: #{url}")
+        unless ssdb.exists(key)
+          raise MissingUpstreamDataError.new("No data upstream at SSDB server #{ENV['SSDB_HOST']} for key: #{key}")
         end
-        ssdb.get(url)
+        ssdb.get(key)
       end
 
       def self.valid_license_type?(license_type)

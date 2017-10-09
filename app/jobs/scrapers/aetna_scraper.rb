@@ -6,10 +6,8 @@ module Jobs
       include Helpers::Scrapers::SpecialtiesHelper
 
       def self.perform(plan_id, url)
-        STDOUT.write("Performing #{AetnaScraper} from #{__FILE__}")
-
         plan = Plan.find(plan_id)
-        doc = Nokogiri::HTML.parse(self.page_source_for_url(url))
+        doc = Nokogiri::HTML.parse(self.page_source_for_key(url))
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/aetna.csv"
         self.initialize_csv(csv_path)
         CSV.open(csv_path, 'a') do |csv|
@@ -18,6 +16,7 @@ module Jobs
             if row
               row.unshift(plan_id)
               row.unshift(plan.payor.id)
+              row.unshift(nil) # no directory ID
               csv << row
             end
           end
