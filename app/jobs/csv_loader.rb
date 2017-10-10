@@ -19,6 +19,7 @@ module Jobs
       columns.delete('updated_at')
       options = { on_duplicate_key_update: { conflict_target: [:first_name, :last_name, :payor_id, :directory_id], columns: columns }}
       ProviderRecord.import(provider_records, options)
+      File.mv(path, path.sub(/\.csv$/, ".#{Time.now.strftime('%F-%H-%M-%S')}.csv"))
     end
   end
 end
