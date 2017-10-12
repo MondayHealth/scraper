@@ -67,6 +67,8 @@ module Jobs
 
         # Specialties have asterisks and the certificate number after them in the original data
         specialties = specialties_and_certificate_number.sub(CERTIFICATE_NUMBER_REGEXP, '').strip.gsub('*', '')
+        # we only get one specialty from ABPN, so no need to split
+        specialties = normalize_specialty(specialties)
 
         is_certified = certification_status.match("Not Certified").nil?
 
