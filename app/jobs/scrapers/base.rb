@@ -5,7 +5,31 @@ require_relative '../concerns/logged_job'
 
 module Jobs
   module Scrapers
-    CSV_FIELDS = ['directory_id', 'payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties', 'certificate_number', 'certified']
+    CSV_FIELDS = ['directory_id', 
+                  'payor_id', 
+                  'accepted_plan_ids', 
+                  'first_name', 
+                  'last_name', 
+                  'license', 
+                  'address', 
+                  'phone', 
+                  'specialties', 
+                  'certificate_number', 
+                  'certified',
+                  'license_status',
+                  'website_url',
+                  'primary_credential',
+                  'professions',
+                  'minimum_fee',
+                  'maximum_fee',
+                  'sliding_scale',
+                  'free_consultation',
+                  'services',
+                  'languages',
+                  'modalities',
+                  'works_with_ages',
+                  'works_with_groups',
+                  'accepted_payors']
 
     class MissingSourceError < Exception; end
 
@@ -31,6 +55,10 @@ module Jobs
       def self.valid_license_type?(license_type)
         @license_type_blacklist ||= open("config/license_type_blacklist.txt").read.split("\n").map(&:strip)
         return !@license_type_blacklist.include?(license_type.to_s)
+      end
+
+      def self.strip_with_nbsp string
+        string.gsub(" ", " ").strip
       end
     end
   end
