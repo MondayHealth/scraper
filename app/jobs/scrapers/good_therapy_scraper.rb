@@ -63,7 +63,7 @@ module Jobs
         website_url = doc.at_css('#edit_website').andand['href']
         row << website_url
 
-        primary_credential = strip_with_nbsp(doc.at_css('#licenceinfo1').content)
+        primary_credential = strip_with_nbsp(doc.at_css('#licenceinfo1').andand.content)
         row << primary_credential
         
         professions = strip_with_nbsp(doc.at_css('#professionsDefined').content)
