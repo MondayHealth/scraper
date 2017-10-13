@@ -58,6 +58,7 @@ module Jobs
       end
 
       def self.strip_with_nbsp string
+        return nil if string.nil?
         string.gsub(" ", " ").strip
       end
     end

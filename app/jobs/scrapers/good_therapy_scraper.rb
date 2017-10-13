@@ -39,7 +39,7 @@ module Jobs
         # multiple locations separated by double-line-breaksdd
         street_addresses = doc.css('div[itemprop="address"]').map do |div|
           address = strip_with_nbsp(div.at_css('span[itemprop="streetAddress"]').content)
-          address2 = strip_with_nbsp(div.at_css('span[class*="address2"]').content)
+          address2 = strip_with_nbsp(div.at_css('span[class*="address2"]').andand.content)
           city = strip_with_nbsp(div.at_css('span[itemprop="addressLocality"]').content)
           state = strip_with_nbsp(div.at_css('span[itemprop="addressRegion"]').content)
           zip = strip_with_nbsp(div.at_css('span[itemprop="postalCode"]').content)
