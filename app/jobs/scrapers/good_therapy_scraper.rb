@@ -30,7 +30,7 @@ module Jobs
         provider_name_and_license = strip_with_nbsp(doc.at_css('#profileTitle_id').content)
         full_name = provider_name_and_license.split(",").first.strip
         first_name = full_name.split(/\s+/).first
-        last_name = full_name.split(/\s+/)[1..-1]
+        last_name = full_name.split(/\s+/)[1..-1].join(" ")
         license = provider_name_and_license.split(",")[1..-1].join(";")
         row << first_name
         row << last_name
