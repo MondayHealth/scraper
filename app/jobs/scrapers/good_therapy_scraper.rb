@@ -38,12 +38,18 @@ module Jobs
 
         # multiple locations separated by double-line-breaksdd
         street_addresses = doc.css('div[itemprop="address"]').map do |div|
+          # some addresses are missing critical data, so we'll do our best to dump what content
+          # they have into an address field
           address = strip_with_nbsp(div.at_css('span[itemprop="streetAddress"]').andand.content)
           address2 = strip_with_nbsp(div.at_css('span[class*="address2"]').andand.content)
-          city = strip_with_nbsp(div.at_css('span[itemprop="addressLocality"]').content)
-          state = strip_with_nbsp(div.at_css('span[itemprop="addressRegion"]').content)
-          zip = strip_with_nbsp(div.at_css('span[itemprop="postalCode"]').content)
-          [address, address2, "#{city}, #{state} #{zip}"].compact.join("\n")
+          city = strip_with_nbsp(div.at_css('span[itemprop="addressLocality"]').andand.content)
+          state = strip_with_nbsp(div.at_css('span[itemprop="addressRegion"]').andand.content)
+          zip = strip_with_nbsp(div.at_css('span[itemprop="postalCode"]').andand.content)
+
+          # only include the final line if there's at least one city/state/zip
+          address_last_line = (city || state || zip) ? "#{city}, #{state} #{zip}" : nil
+
+          [address, address2, address_last_line].compact.join("\n")
         end
         street_addresses = street_addresses.join("\n\n")
         row << street_addresses
