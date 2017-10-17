@@ -36,8 +36,11 @@ module Jobs
         # since the comma is optional, it gets caught in the name for some records
         names = full_name.sub(/,$/, '').split(/\s+/).map(&:strip)
 
-        primary_credential = strip_with_nbsp(doc.at_css('#licenceinfo1').andand.content)
-        provider_license = primary_credential.sub(/\s*\-.+?$/, '')
+        provider_license_match = provider_name_and_license.match(NAME_AND_LICENSE_REGEX)
+        provider_license = nil
+        unless provider_license_match.nil?
+          provider_license = provider_license_match.to_s.strip
+        end
 
         row << names.first
         row << names[1..-1].join(" ")
@@ -77,6 +80,7 @@ module Jobs
         professions = strip_with_nbsp(doc.at_css('#professionsDefined').content)
         row << professions
 
+        primary_credential = strip_with_nbsp(doc.at_css('#licenceinfo1').andand.content)
         if primary_credential.include?("-")
           license_number = primary_credential.split(/\s*\-\s*/).last
           row << license_number
