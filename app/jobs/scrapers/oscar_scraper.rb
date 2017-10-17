@@ -43,7 +43,8 @@ module Jobs
         row << first_name
         row << last_name
 
-        row << nil # no license
+        profession = provider_data["primarySpecialty"].andand["name"]
+        row << self.license_for_profession(profession) # no license
 
         address = provider_data["locations"].map do |location|
           result = location["address1"]
@@ -65,9 +66,15 @@ module Jobs
         row << nil # no specialties
         row << nil # no certificate_number
         row << nil # no certified
+      end
 
-        profession = provider_data["primarySpecialty"].andand["name"]
-        row << profession
+      def self.license_for_profession profession
+        case profession
+        when "Social Worker"
+          "LCSW"
+        else
+          nil
+        end
       end
     end
   end
