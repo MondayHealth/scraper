@@ -95,11 +95,20 @@ module Jobs
         fees = doc.at_css('p:contains("Fees:")')
         unless fees.nil?
           fees = strip_with_nbsp(fees.content.sub('Fees:', '').sub('$', '')) 
-          minimum_fee = fees.split(/\s*\-\s*/).first
-          maximum_fee = fees.split(/\s*\-\s*/).last
+          if fees_match = fees.match(/$?([0-9]+)\s*(?:\-|to)\s*$?([0-9]+)/)
+            minimum_fee = fees_match[1]
+            maximum_fee = fees_match[2]
+            row << minimum_fee
+            row << maximum_fee
+          elsif fees_match = fees.match(/(?:$|^)([0-9]+)\s/)
+            minimum_fee = fees_match[1]
+            row << minimum_fee
+            row << nil # no maximum fee
+          else
+            row << nil # no minimum fee
+            row << nil # no maximum fee
+          end
         end
-        row << minimum_fee
-        row << maximum_fee
 
         sliding_scale = !doc.at_css('#sliding_scale.green-checkmark').nil?
         free_consultation = !doc.at_css('#free_initial_consultation.green-checkmark').nil?
