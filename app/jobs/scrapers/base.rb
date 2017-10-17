@@ -5,7 +5,7 @@ require_relative '../concerns/logged_job'
 
 module Jobs
   module Scrapers
-    CSV_FIELDS = ['directory_id', 'payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties', 'certificate_number', 'certified']
+    CSV_FIELDS = ['directory_id', 'payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties', 'certificate_number', 'certified', 'professions']
 
     class MissingSourceError < Exception; end
 
