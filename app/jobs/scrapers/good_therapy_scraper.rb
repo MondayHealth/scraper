@@ -108,6 +108,9 @@ module Jobs
             row << nil # no minimum fee
             row << nil # no maximum fee
           end
+        else
+          row << nil # no minimum fee
+          row << nil # no maximum fee
         end
 
         sliding_scale = !doc.at_css('#sliding_scale.green-checkmark').nil?
