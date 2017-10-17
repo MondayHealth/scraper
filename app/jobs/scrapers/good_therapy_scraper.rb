@@ -78,8 +78,8 @@ module Jobs
         row << nil # certified
 
         primary_credential = strip_with_nbsp(doc.at_css('#licenceinfo1').andand.content)
-        if primary_credential.andand.include?("-")
-          license_number = primary_credential.split(/\s*\-\s*/).last
+        if primary_credential.andand.include?(" - ")
+          license_number = primary_credential.split(" - ").last
           row << license_number
         else
           row << nil
