@@ -77,9 +77,6 @@ module Jobs
         row << nil # certificate_number
         row << nil # certified
 
-        professions = strip_with_nbsp(doc.at_css('#professionsDefined').content)
-        row << professions
-
         primary_credential = strip_with_nbsp(doc.at_css('#licenceinfo1').andand.content)
         if primary_credential.include?("-")
           license_number = primary_credential.split(/\s*\-\s*/).last

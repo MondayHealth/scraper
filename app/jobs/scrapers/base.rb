@@ -16,7 +16,6 @@ module Jobs
                   'specialties', 
                   'certificate_number', 
                   'certified',
-                  'professions',
                   'license_number',
                   'license_status',
                   'website_url',
