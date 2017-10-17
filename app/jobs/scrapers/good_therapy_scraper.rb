@@ -95,7 +95,7 @@ module Jobs
         fees = doc.at_css('p:contains("Fees:")')
         unless fees.nil?
           fees = strip_with_nbsp(fees.content.sub('Fees:', '').sub('$', '')) 
-          if fees_match = fees.match(/$?([0-9]{2,3})\s*(?:\-|to)\s*$?([0-9]{2,3})\b/)
+          if fees_match = fees.match(/\$?([0-9]{2,3})\s*(?:\-|to)\s*\$?([0-9]{2,3})\b/)
             minimum_fee = fees_match[1]
             maximum_fee = fees_match[2]
             row << minimum_fee
