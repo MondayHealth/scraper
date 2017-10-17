@@ -5,6 +5,8 @@ module Jobs
     class GoodTherapyScraper < Base
       include Helpers::Scrapers::SpecialtiesHelper
 
+      NAME_AND_LICENSE_REGEX = /\s((?:(?:[A-Z\-]\.|[A-Z\-]){2,})|Ph\.?D\.?|Psy\.?D\.?).+$/
+
       def self.perform(cache_key)
         directory = Directory.find_by(short_name: 'good-therapy')
         if directory.nil?
@@ -28,13 +30,23 @@ module Jobs
         row = []
 
         provider_name_and_license = strip_with_nbsp(doc.at_css('#profileTitle_id').content)
-        full_name = provider_name_and_license.split(",").first.strip
-        first_name = full_name.split(/\s+/).first
-        last_name = full_name.split(/\s+/)[1..-1].join(" ")
-        license = provider_name_and_license.split(",")[1..-1].join(";")
-        row << first_name
-        row << last_name
-        row << license
+        full_name = provider_name_and_license.sub(NAME_AND_LICENSE_REGEX, '')
+
+        # since the comma is optional, it gets caught in the name for some records
+        names = full_name.sub(/,$/, '').split(/\s+/).map(&:strip)
+
+        provider_license_match = provider_name_and_license.match(NAME_AND_LICENSE_REGEX)
+        provider_license = nil
+        unless provider_license_match.nil?
+          provider_license = provider_license_match.to_s.strip
+        end
+        row << names.first
+        row << names[1..-1].join(" ")
+        row << provider_license
+
+        unless provider_license.nil? || valid_license_type?(provider_license)
+          return nil
+        end
 
         # multiple locations separated by double-line-breaksdd
         street_addresses = doc.css('div[itemprop="address"]').map do |div|
