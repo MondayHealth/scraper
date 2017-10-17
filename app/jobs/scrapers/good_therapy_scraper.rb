@@ -112,7 +112,7 @@ module Jobs
         row << modalities
         works_with_ages = extract_list_items_for_selector(doc, '#agesData li')
         row << works_with_ages
-        works_with_groups = extract_list_items_for_selector(doc, '#groupsiworkwith li')
+        works_with_groups = extract_list_items_for_selector(doc, '.groupsiworkwith li')
         row << works_with_groups
         
         # insurance
