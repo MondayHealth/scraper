@@ -5,7 +5,7 @@ module Jobs
     class GoodTherapyScraper < Base
       include Helpers::Scrapers::SpecialtiesHelper
 
-      NAME_AND_LICENSE_REGEX = /\s((?:(?:[A-Z\-]\.|[A-Z\-]){2,})|Ph\.?D\.?|Psy\.?D\.?).+$/
+      NAME_AND_LICENSE_REGEX = /\s((?:(?:[A-Z\-]\.|[A-Z\-]){2,})|Ph\.?D\.?|Psy\.?D\.?).*$/
 
       def self.perform(cache_key)
         directory = Directory.find_by(short_name: 'good-therapy')
@@ -30,6 +30,7 @@ module Jobs
         row = []
 
         provider_name_and_license = strip_with_nbsp(doc.at_css('#profileTitle_id').content)
+        provider_name_and_license.sub!(/^Dr.\s/, '')
         full_name = provider_name_and_license.sub(NAME_AND_LICENSE_REGEX, '')
 
         # since the comma is optional, it gets caught in the name for some records
