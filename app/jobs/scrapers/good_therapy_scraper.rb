@@ -74,6 +74,9 @@ module Jobs
         row << nil # certificate_number
         row << nil # certified
 
+        professions = strip_with_nbsp(doc.at_css('#professionsDefined').content)
+        row << professions
+
         if primary_credential.include?("-")
           license_number = primary_credential.split(/\s*\-\s*/).last
           row << license_number
@@ -86,9 +89,6 @@ module Jobs
 
         website_url = doc.at_css('#edit_website').andand['href']
         row << website_url
-
-        professions = strip_with_nbsp(doc.at_css('#professionsDefined').content)
-        row << professions
 
         # fees
         fees = doc.at_css('p:contains("Fees:")')
