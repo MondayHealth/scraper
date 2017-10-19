@@ -34,11 +34,13 @@ module Jobs
             end
           end
         end
-        provider_record.specialties.split(/;\s*/).each do |specialty_name|
-          specialty = Specialty.where(name: specialty_name).first_or_create!
-          provider.specialties << specialty unless provider.specialties.include?(specialty)
+        if provider_record.specialties
+          provider_record.specialties.split(/;\s*/).each do |specialty_name|
+            specialty = Specialty.where(name: specialty_name).first_or_create!
+            provider.specialties << specialty unless provider.specialties.include?(specialty)
+          end
+          provider_record.update_column('provider_id', provider.id)
         end
-        provider_record.update_column('provider_id', provider.id)
       end
     end
 
