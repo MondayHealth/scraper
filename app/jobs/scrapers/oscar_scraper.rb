@@ -7,6 +7,16 @@ module Jobs
 
       include Helpers::Scrapers::SpecialtiesHelper
 
+      HONORIFICS_FOR_PROFESSIONS = {
+        "Marriage and Family Therapist": "LMFT",
+        "Mental Health Counselor": "LMHC",
+        "Psychiatrist specializing in Pediatrics": "MD",
+        "Psychiatrist specializing in addiction problems": "MD",
+        "Psychiatrist specializing in geriatrics": "MD",
+        "Psychologist": "PhD",
+        "Social Worker": "LCSW"
+      }
+
       def self.perform(plan_id, url)
         plan = Plan.find(plan_id)
         if plan.nil?
@@ -44,7 +54,7 @@ module Jobs
         row << last_name
 
         profession = provider_data["primarySpecialty"].andand["name"]
-        row << self.license_for_profession(profession) # no license
+        row << HONORIFICS_FOR_PROFESSIONS[profession.to_sym]
 
         address = provider_data["locations"].map do |location|
           result = location["address1"]
@@ -62,20 +72,8 @@ module Jobs
           location["phone"]
         end.join("\n")
         row << phone
-
-        row << nil # no specialties
-        row << nil # no certificate_number
-        row << nil # no certified
       end
 
-      def self.license_for_profession profession
-        case profession
-        when "Social Worker"
-          "LCSW"
-        else
-          nil
-        end
-      end
     end
   end
 end
