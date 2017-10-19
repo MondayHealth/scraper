@@ -5,18 +5,19 @@ module Jobs
     class AetnaScraper < Base
       include Helpers::Scrapers::SpecialtiesHelper
 
+      CSV_FIELDS = ['payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
+
       def self.perform(plan_id, url)
         plan = Plan.find(plan_id)
         doc = Nokogiri::HTML.parse(self.page_source_for_key(url))
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/aetna.csv"
-        self.initialize_csv(csv_path)
+        self.initialize_csv(csv_path, CSV_FIELDS)
         CSV.open(csv_path, 'a') do |csv|
           doc.css('#providersTable .result_location_top_public').each do |td|
             row = extract_provider(td)
             if row
               row.unshift(plan_id)
               row.unshift(plan.payor.id)
-              row.unshift(nil) # no directory ID
               csv << row
             end
           end

@@ -17,6 +17,9 @@ module Jobs
         "Social Worker": "LCSW"
       }
 
+      CSV_FIELDS = ['payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone']
+
+
       def self.perform(plan_id, url)
         plan = Plan.find(plan_id)
         if plan.nil?
@@ -27,14 +30,13 @@ module Jobs
         if json_match
           json = JSON.parse(json_match[1])
           csv_path = "#{ENV['STORAGE_DIRECTORY']}/oscar.csv"
-          self.initialize_csv(csv_path)
+          self.initialize_csv(csv_path, CSV_FIELDS)
           CSV.open(csv_path, 'a') do |csv|
             json["publicSearchInitialState"]["results"]["hits"].each do |provider_data|
               row = extract_provider(provider_data)
               if row
                 row.unshift(plan.id)
                 row.unshift(plan.payor.id)
-                row.unshift(nil) # no directory ID
                 csv << row
               end
             end

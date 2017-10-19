@@ -6,6 +6,26 @@ module Jobs
       include Helpers::Scrapers::SpecialtiesHelper
 
       NAME_AND_LICENSE_REGEX = /\s((?:(?:[A-Z\-]\.|[A-Z\-]){2,})|Ph\.?D\.?|Psy\.?D\.?).*$/
+      CSV_FIELDS = ['directory_id', 
+                    'first_name', 
+                    'last_name', 
+                    'license', 
+                    'address', 
+                    'phone', 
+                    'specialties', 
+                    'license_number',
+                    'license_status',
+                    'website_url',
+                    'minimum_fee',
+                    'maximum_fee',
+                    'sliding_scale',
+                    'free_consultation',
+                    'services',
+                    'languages',
+                    'modalities',
+                    'works_with_ages',
+                    'works_with_groups',
+                    'accepted_payors']
 
       def self.perform(cache_key)
         directory = Directory.find_by(short_name: 'good-therapy')
@@ -14,12 +34,10 @@ module Jobs
         end
         doc = Nokogiri::HTML.parse(self.page_source_for_key(cache_key))
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/good-therapy.csv"
-        self.initialize_csv(csv_path)
+        self.initialize_csv(csv_path, CSV_FIELDS)
         CSV.open(csv_path, 'a') do |csv|
           row = extract_provider(doc)
           if row
-            row.unshift(nil) # no plan ID
-            row.unshift(nil) # no payor ID
             row.unshift(directory.id)
             csv << row
           end
@@ -73,9 +91,6 @@ module Jobs
 
         specialties = doc.css('#issuesData li').map(&:content).map { |s| normalize_specialty(s) }.join(";")
         row << specialties
-
-        row << nil # certificate_number
-        row << nil # certified
 
         primary_credential = strip_with_nbsp(doc.at_css('#licenceinfo1').andand.content)
         if primary_credential.andand.include?(" - ")
