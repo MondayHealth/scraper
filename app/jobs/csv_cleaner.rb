@@ -8,7 +8,7 @@ module Jobs
       unique_csv = sorted_csv.uniq { |row| [row['first_name'].to_s, row['last_name'].to_s, row['accepted_plan_ids']] }
       new_path = path.sub(/\.csv$/, '.cleaned.csv')
       CSV.open(new_path, 'w+') do |csv|
-        csv << Jobs::Scrapers::CSV_FIELDS
+        csv << unsorted_csv.headers
         last_unique_row = nil
         unique_csv.each_with_index do |row, index|
           last_unique_row ||= row
