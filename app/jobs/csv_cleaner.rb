@@ -27,7 +27,7 @@ module Jobs
           end
         end
       end
-      File.mv(path, path.sub(/\.csv$/, ".#{Time.now.strftime('%F-%H-%M-%S')}.csv"))
+      FileUtils.mv(path, path.sub(/\.csv$/, ".#{Time.now.strftime('%F-%H-%M-%S')}.csv"))
     end
 
     def self.duplicates?(row_1, row_2)

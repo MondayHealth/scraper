@@ -29,10 +29,6 @@ module Jobs
         end
       end
 
-      def self.strip_with_nbsp string
-        string.gsub(" ", " ").strip
-      end
-
       def self.extract_provider tr
         # name and license is the first link in the cells
         provider_name_and_license = strip_with_nbsp(tr.at_css('td:nth(1)').content)
