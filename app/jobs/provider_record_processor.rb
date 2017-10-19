@@ -23,11 +23,15 @@ module Jobs
         provider = Provider.where(first_name: provider_record.first_name, 
                               last_name: provider_record.last_name, 
                               license: provider_record.license).first_or_create!
-        addresses = provider_record.address.split("\n\n")
-        phones = provider_record.phone.split("\n")
-        addresses.each_with_index do |address, index|
-          provider.locations.where(address: address).first_or_create! do |l|
-            l.phone = phones[index] || phones.first
+        addresses = provider_record.address.andand.split("\n\n")
+        phones = provider_record.phone.andand.split("\n")
+        if addresses
+          addresses.each_with_index do |address, index|
+            provider.locations.where(address: address).first_or_create! do |l|
+              if phones
+                l.phone = phones[index] || phones.first
+              end
+            end
           end
         end
         provider_record.specialties.split(/;\s*/).each do |specialty_name|
