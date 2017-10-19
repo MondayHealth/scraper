@@ -6,7 +6,7 @@ module Jobs
       include Helpers::Scrapers::SpecialtiesHelper
 
       NAME_AND_LICENSE_REGEX = /\s((?:,\s)?((?:(?:[A-Z]\.|[A-Z]){2,})|Ph\.D\.))+/
-      CERTIFICATE_NUMBER_REGEXP = /Certificate No\. ([0-9])+/
+      CERTIFICATE_NUMBER_REGEXP = /Certificate No\. ([0-9]+)/
 
       def self.perform(cache_key)
         directory = Directory.find_by(short_name: 'abpn')
