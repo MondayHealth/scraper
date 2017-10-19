@@ -46,7 +46,7 @@ module Jobs
         licenses = provider_data["providerTypeList"]
         row << licenses.join(", ")
 
-        address = "#{provider_data["street"]}\n#{provider_data["city"]}, #{provider_data["state"]} #{provider_data["zip"]}}"
+        address = "#{provider_data["street"]}\n#{provider_data["city"]}, #{provider_data["state"]} #{provider_data["zip"]}"
         row << address
 
         phone = provider_data["phone"]
