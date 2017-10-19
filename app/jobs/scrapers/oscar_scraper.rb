@@ -54,7 +54,8 @@ module Jobs
         row << last_name
 
         profession = provider_data["primarySpecialty"].andand["name"]
-        row << HONORIFICS_FOR_PROFESSIONS[profession.to_sym]
+        licenses = profession.split(/,\s/).map { |p| HONORIFICS_FOR_PROFESSIONS[p.to_sym] }.compact.sort.uniq
+        row << licenses.join(", ")
 
         address = provider_data["locations"].map do |location|
           result = location["address1"]
