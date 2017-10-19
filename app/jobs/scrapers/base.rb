@@ -5,40 +5,15 @@ require_relative '../concerns/logged_job'
 
 module Jobs
   module Scrapers
-    CSV_FIELDS = ['directory_id', 
-                  'payor_id', 
-                  'accepted_plan_ids', 
-                  'first_name', 
-                  'last_name', 
-                  'license', 
-                  'address', 
-                  'phone', 
-                  'specialties', 
-                  'certificate_number', 
-                  'certified',
-                  'license_number',
-                  'license_status',
-                  'website_url',
-                  'minimum_fee',
-                  'maximum_fee',
-                  'sliding_scale',
-                  'free_consultation',
-                  'services',
-                  'languages',
-                  'modalities',
-                  'works_with_ages',
-                  'works_with_groups',
-                  'accepted_payors']
-
     class MissingSourceError < Exception; end
 
     class Base
       extend Jobs::Concerns::LoggedJob
 
-      def self.initialize_csv(path)
+      def self.initialize_csv(path, csv_fields)
         unless File.exists?(path)
           CSV.open(path, 'w+') do |csv|
-            csv << CSV_FIELDS
+            csv << csv_fields
           end
         end
       end

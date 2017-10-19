@@ -7,6 +7,15 @@ module Jobs
 
       NAME_AND_LICENSE_REGEX = /\s((?:,\s)?((?:(?:[A-Z]\.|[A-Z]){2,})|Ph\.D\.))+/
       CERTIFICATE_NUMBER_REGEXP = /Certificate No\. ([0-9]+)/
+      CSV_FIELDS = ['directory_id', 
+                    'first_name', 
+                    'last_name', 
+                    'license', 
+                    'address', 
+                    'specialties', 
+                    'certificate_number', 
+                    'certified']
+
 
       def self.perform(cache_key)
         directory = Directory.find_by(short_name: 'abpn')
@@ -15,13 +24,11 @@ module Jobs
         end
         doc = Nokogiri::HTML.parse(self.page_source_for_key(cache_key))
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/abpn.csv"
-        self.initialize_csv(csv_path)
+        self.initialize_csv(csv_path, CSV_FIELDS)
         CSV.open(csv_path, 'a') do |csv|
           doc.css('#body tr:has(td.body)').each do |tr|
             row = extract_provider(tr)
             if row
-              row.unshift(nil) # no plan ID
-              row.unshift(nil) # no payor ID
               row.unshift(directory.id)
               csv << row
             end
@@ -74,7 +81,6 @@ module Jobs
         row << provider_last_name
         row << provider_license
         row << address
-        row << nil # no phone records to add here
         row << specialties
         row << certificate_number
         row << is_certified
