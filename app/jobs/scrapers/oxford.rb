@@ -56,6 +56,8 @@ module Jobs
           end
         end.compact.join("\n")
         row << phone
+
+        row
       end
     end
   end
