@@ -8,9 +8,6 @@ module Jobs
 
       def self.perform(plan_id, url)
         plan = Plan.find(plan_id)
-        if plan.nil?
-          raise MissingSourceError.new("Missing United in database. Are you sure the seed data is there?")
-        end
         page_source = self.page_source_for_key(url)
         json = JSON.parse(page_source)
         csv_path = "#{ENV['STORAGE_DIRECTORY']}/united.csv"

@@ -22,9 +22,6 @@ module Jobs
 
       def self.perform(plan_id, url)
         plan = Plan.find(plan_id)
-        if plan.nil?
-          raise MissingSourceError.new("Missing Oscar in database. Are you sure the seed data is there?")
-        end
         page_source = self.page_source_for_key(url)
         json_match = page_source.match(/fluxInitialState\s*=\s*(.+?);/)
         if json_match
