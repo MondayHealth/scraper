@@ -3,7 +3,7 @@ require_relative 'base'
 module Jobs
   module Scrapers
     class CareConnectScraper < Base
-      CSV_FIELDS = ['payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties', 'group_affiliation']
+      CSV_FIELDS = ['payor_id', 'accepted_plan_ids', 'first_name', 'last_name', 'license', 'address', 'phone', 'specialties']
 
       def self.perform(plan_id, url)
         plan = Plan.find(plan_id)
@@ -62,15 +62,6 @@ module Jobs
           end.join("; ")
         end
         row << specialties
-        
-        group_affiliations = nil
-        if provider_data["HasGroupAffiliations"]
-          group_affiliations = provider_data["GroupAffiliations"].map do |group|
-            group["Name"]
-          end.join("; ")
-        end
-        row << group_affiliations
-
       end
     end
   end
