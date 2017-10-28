@@ -142,8 +142,12 @@ module Jobs
         row << modalities
         works_with_ages = extract_list_items_for_selector(doc, '#agesData li')
         row << works_with_ages
-        works_with_groups = extract_list_items_for_selector(doc, '.groupsiworkwith li')
-        row << works_with_groups
+        if doc.at_css('.groupsiworkwith')
+          works_with_groups = strip_with_nbsp(doc.at_css('.groupsiworkwith').text).gsub(/,\s*/, ';')
+          row << works_with_groups
+        else
+          row << nil
+        end
         
         # insurance
         accepted_payors = doc.css('#billingData li').map(&:content).join(";")
