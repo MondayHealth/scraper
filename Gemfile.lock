@@ -1,6 +1,6 @@
 GIT
   remote: https://eecde58368a7e9b25befe79b8fc86b29d3e94b0e:x-oauth-basic@github.com/MondayHealth/core.git
-  revision: b16b8798110045166c54ac05b7f66688dea0c0d9
+  revision: 39dcd4ed2ebd16b62003a00b7ac02f01e9a8f68f
   specs:
     core (0.0.2)
       otr-activerecord (= 1.2.4)
@@ -67,7 +67,7 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    tzinfo (1.2.3)
+    tzinfo (1.2.4)
       thread_safe (~> 0.1)
     vegas (0.1.11)
       rack (>= 1.0.0)
