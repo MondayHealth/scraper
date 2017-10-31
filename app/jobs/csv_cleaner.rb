@@ -4,9 +4,10 @@ module Jobs
 
     def self.perform(path)
       unsorted_csv = CSV.read(path, headers: true)
-      sorted_csv = unsorted_csv.sort_by { |row| [row['first_name'].to_s, row['last_name'].to_s, row['accepted_plan_ids']] }
-      unique_csv = sorted_csv.uniq { |row| [row['first_name'].to_s, row['last_name'].to_s, row['accepted_plan_ids']] }
+      sorted_csv = unsorted_csv.sort_by { |row| [row['first_name'].to_s, row['last_name'].to_s, row['accepted_plan_ids'], row['specialties'], row['certificate_number']] }
+      unique_csv = sorted_csv.uniq { |row| [row['first_name'].to_s, row['last_name'].to_s, row['accepted_plan_ids'], row['specialties'], row['certificate_number']] }
       new_path = path.sub(/\.csv$/, '.cleaned.csv')
+      puts "New Path: #{new_path}"
       CSV.open(new_path, 'w+') do |csv|
         csv << unsorted_csv.headers
         last_unique_row = nil
@@ -16,7 +17,11 @@ module Jobs
 
           if last_unique_row != row && duplicates?(last_unique_row, row)
             # add the current accepted plan IDs to the previous line 
-            last_unique_row["accepted_plan_ids"] = last_unique_row["accepted_plan_ids"] + ", " + row['accepted_plan_ids']
+            ['accepted_plan_ids', 'specialties', 'certificate_number'].each do |dedupe_key|
+              unless row[dedupe_key].nil?
+                last_unique_row[dedupe_key] = last_unique_row[dedupe_key] + ";" + row[dedupe_key]
+              end
+            end
           end
 
           is_last_row = (index == sorted_csv.length - 1)
@@ -24,6 +29,10 @@ module Jobs
           if !duplicates?(last_unique_row, row) || is_last_row
             csv << last_unique_row
             last_unique_row = row
+          end
+          # if we hit the end of the file and didn't find a dupe before, write one more line
+          if !duplicates?(last_unique_row, row) || is_last_row
+            csv << row
           end
         end
       end
