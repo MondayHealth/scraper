@@ -23,7 +23,8 @@ namespace :directories do
     Directory.find_each do |directory|
       csv_filename = "#{ENV['STORAGE_DIRECTORY']}/#{directory.short_name.downcase}.csv"
       if File.exists?(csv_filename)
-        Jobs::CsvLoader.perform(csv_filename)
+        Jobs::CsvCleaner.perform(csv_filename)
+        Jobs::CsvLoader.perform(csv_filename.sub(/\.csv/, '.cleaned.csv'))
         directory.reload
         Jobs::ProviderRecordScanner.perform(directory.provider_records.pluck(:id))
       end
