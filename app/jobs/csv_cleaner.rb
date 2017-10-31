@@ -25,6 +25,10 @@ module Jobs
             csv << last_unique_row
             last_unique_row = row
           end
+          # if we hit the end of the file and didn't find a dupe before, write one more line
+          if !duplicates?(last_unique_row, row) || is_last_row
+            csv << row
+          end
         end
       end
       FileUtils.mv(path, path.sub(/\.csv$/, ".#{Time.now.strftime('%F-%H-%M-%S')}.csv"))
