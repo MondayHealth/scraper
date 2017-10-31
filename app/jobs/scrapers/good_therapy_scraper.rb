@@ -128,8 +128,8 @@ module Jobs
           row << nil # no maximum fee
         end
 
-        sliding_scale = !doc.at_css('#sliding_scale.green-checkmark').nil?
-        free_consultation = !doc.at_css('#free_initial_consultation.green-checkmark').nil?
+        sliding_scale = !doc.at_css('#sliding_scale.green-checkmark').andand.text.strip.empty?
+        free_consultation = !doc.at_css('#free_initial_consultation.green-checkmark').andand.text.strip.empty?
         row << sliding_scale
         row << free_consultation
 
