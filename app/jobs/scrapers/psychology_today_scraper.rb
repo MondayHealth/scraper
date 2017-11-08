@@ -110,7 +110,7 @@ module Jobs
         row << license_state
 
         fees = extract_spans(doc, "Avg Cost (per session)")
-        if fees_match = fees.match(/\$([0-9]{2,})\s*-\s*\$([0-9]{2,})/)
+        if fees_match = fees.andand.match(/\$([0-9]{2,})\s*-\s*\$([0-9]{2,})/)
           minimum_fee = fees_match[1]
           maximum_fee = fees_match[2]
           row << minimum_fee
