@@ -59,11 +59,11 @@ module Jobs
         provider_license = strip_with_nbsp(doc.at_css('.profile-title').text.strip.gsub(/\s+/, " "))
         row << provider_license
 
-        streetAddress = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="streetAddress"]').inner_html.gsub(/<br\/?>/, "\n"))
+        streetAddress = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="streetAddress"]').andand.inner_html.andand.gsub(/<br\/?>/, "\n"))
         city = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="addressLocality"]').text)
         state = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="addressRegion"]').text)
         zip = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="postalcode"]').text)
-        address = [streetAddress, "#{city}, #{state} #{zip}"].join("\n")
+        address = [streetAddress, "#{city}, #{state} #{zip}"].compact.join("\n")
         row << address
 
         phone = strip_with_nbsp(doc.at_css('.profile-address a[data-event-label="Address1_PhoneLink"]').text)
