@@ -103,6 +103,12 @@ module Jobs
         row << year_graduated
 
         license_number_and_state = extract_spans(doc, "License No. and State")
+
+        # Some providers are interns, and have no license info as of yet, so we
+        # drop their records from the scrape
+        if license_number_and_state.nil?
+            return nil
+        end
         license_number = license_number_and_state.match(/[0-9]+/).to_s
         row << license_number
 
