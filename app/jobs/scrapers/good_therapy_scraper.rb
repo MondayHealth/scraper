@@ -14,7 +14,6 @@ module Jobs
                     'phone', 
                     'specialties', 
                     'license_number',
-                    'license_status',
                     'website_url',
                     'minimum_fee',
                     'maximum_fee',
@@ -99,9 +98,6 @@ module Jobs
         else
           row << nil
         end
-
-        license_status = doc.at_css('#license_status_id').content.match(/[a-z]+ professional/).to_s
-        row << license_status
 
         website_url = doc.at_css('#edit_website').andand['href']
         row << website_url
