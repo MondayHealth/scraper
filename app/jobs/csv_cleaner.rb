@@ -16,10 +16,15 @@ module Jobs
           plan_ids ||= []
 
           if last_unique_row != row && duplicates?(last_unique_row, row)
-            # add the current accepted plan IDs to the previous line 
+            # add the current values for keys whose values might be duplicated to the previous line 
             ['accepted_plan_ids', 'specialties', 'certificate_number'].each do |dedupe_key|
               unless row[dedupe_key].nil?
-                last_unique_row[dedupe_key] = last_unique_row[dedupe_key] + ";" + row[dedupe_key]
+                # since we might have searched by specialty for different plans, or by plan for different specialties,
+                # we'll get duplicates values when we merge the duplicate rows unless we check first
+                existing_values = last_unique_row[dedupe_key].split(";")
+                unless existing_values.include?(row[dedupe_key])
+                  last_unique_row[dedupe_key] = last_unique_row[dedupe_key] + ";" + row[dedupe_key]
+                end
               end
             end
           end
