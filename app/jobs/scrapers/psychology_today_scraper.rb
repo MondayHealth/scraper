@@ -12,6 +12,7 @@ module Jobs
                     'address',
                     'phone',
                     'website_url',
+                    'specialties',
                     'languages',
                     'works_with_ages',
                     'works_with_groups',
