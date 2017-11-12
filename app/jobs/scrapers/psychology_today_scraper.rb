@@ -67,7 +67,7 @@ module Jobs
         address = [streetAddress, "#{city}, #{state} #{zip}"].compact.join("\n")
         row << address
 
-        phone = strip_with_nbsp(doc.at_css('.profile-address a[data-event-label="Address1_PhoneLink"]').text)
+        phone = strip_with_nbsp(doc.at_css('.profile-address a[data-event-label="Address1_PhoneLink"]').andand.text)
         row << phone
 
         website_url = doc.at_css('a[data-event-label="website"]').andand['href']
