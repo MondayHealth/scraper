@@ -35,7 +35,7 @@ module Jobs
           raise MissingSourceError.new("Missing PsychologyToday Directory in database. Are you sure the seed data is there?")
         end
         doc = Nokogiri::HTML.parse(self.page_source_for_key(cache_key))
-        csv_path = "#{ENV['STORAGE_DIRECTORY']}/psychologytoday.csv"
+        csv_path = "#{ENV['STORAGE_DIRECTORY']}/#{directory.short_name}.csv"
         self.initialize_csv(csv_path, CSV_FIELDS)
         CSV.open(csv_path, 'a') do |csv|
           row = extract_provider(doc)
