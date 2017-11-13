@@ -17,3 +17,5 @@ gem 'nokogiri'
 gem 'activerecord-import'
 
 gem 'andand'
+
+gem 'retries'
