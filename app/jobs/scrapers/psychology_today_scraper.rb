@@ -1,4 +1,5 @@
 require_relative 'base'
+require 'net/http'
 
 module Jobs
   module Scrapers
@@ -71,7 +72,15 @@ module Jobs
         row << phone
 
         website_url = doc.at_css('a[data-event-label="website"]').andand['href']
-        row << website_url
+        redirect_url = nil
+        if website_url
+          with_retries(max_tries: 5, rescue: Net::HTTPExceptions) do
+            # the site sends the user to a redirect URL, so pull that first
+            response = Net::HTTP.get_response URI.parse website_url
+            redirect_url = response["location"]
+          end
+        end
+        row << redirect_url
 
         specialties = doc.css('.spec-list ul li').map(&:text).map { |s| normalize_specialty(s) }.join(";")
         row << specialties

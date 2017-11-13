@@ -58,6 +58,7 @@ GEM
       vegas (~> 0.1.2)
     resque-cleaner (0.3.2)
       resque (~> 1.0)
+    retries (0.0.5)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -86,6 +87,7 @@ DEPENDENCIES
   rake
   resque
   resque-cleaner
+  retries
   ssdb
 
 BUNDLED WITH

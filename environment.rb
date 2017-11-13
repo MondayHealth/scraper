@@ -5,6 +5,7 @@ require 'otr-activerecord'
 require 'activerecord-import'
 require 'ssdb'
 require 'andand'
+require 'retries'
 
 OTR::ActiveRecord.configure_from_file! "config/database.yml"
 
