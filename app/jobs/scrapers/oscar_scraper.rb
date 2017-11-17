@@ -13,6 +13,7 @@ module Jobs
         "Psychiatrist specializing in Pediatrics": "MD",
         "Psychiatrist specializing in addiction problems": "MD",
         "Psychiatrist specializing in geriatrics": "MD",
+        "Psychiatrist": "MD",
         "Psychologist": "PhD",
         "Social Worker": "LCSW"
       }
