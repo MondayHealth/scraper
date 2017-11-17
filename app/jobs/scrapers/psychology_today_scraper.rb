@@ -82,7 +82,10 @@ module Jobs
         end
         row << redirect_url
 
-        specialties = doc.css('.spec-list ul li').map(&:text).map { |s| normalize_specialty(s) }.join(";")
+        specialties_selector = ['attributes-top', 'attributes-issues', 'attributes-mental-health', 'attributes-sexuality'].map do |selector|
+          ".spec-list.#{selector} ul li"
+        end.join(",")
+        specialties = doc.css(specialties_selector).map(&:text).map { |s| normalize_specialty(s) }.join(";")
         row << specialties
 
         languages = extract_spans(doc, "Alternative Languages")
@@ -142,7 +145,7 @@ module Jobs
         accepted_payment_methods = extract_spans(doc, "Accepted Payment Methods")
         row << accepted_payment_methods
 
-        accepted_payors = doc.css("strong:contains('Accepted Insurance Plans') + .spec-list li").map(&:text).map(&:strip).join(";")
+        accepted_payors = doc.css("h3:contains('Accepted Insurance Plans') + div li").map(&:text).map(&:strip).join(";")
         row << accepted_payors
 
         source_updated_at_string = doc.at_css('.last-modified').text.sub('Last Modified: ', '')
