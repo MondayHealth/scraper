@@ -14,6 +14,8 @@ gem 'otr-activerecord'
 
 gem 'nokogiri'
 
+gem 'curb'
+
 gem 'activerecord-import'
 
 gem 'andand'

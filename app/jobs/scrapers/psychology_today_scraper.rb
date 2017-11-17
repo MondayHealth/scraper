@@ -1,5 +1,5 @@
 require_relative 'base'
-require 'net/http'
+require 'curb'
 
 module Jobs
   module Scrapers
@@ -74,10 +74,18 @@ module Jobs
         website_url = doc.at_css('a[data-event-label="website"]').andand['href']
         redirect_url = nil
         if website_url
-          with_retries(max_tries: 5, rescue: Net::HTTPExceptions) do
+          with_retries(max_tries: 5, rescue: Curl::Err::CurlError) do
             # the site sends the user to a redirect URL, so pull that first
-            response = Net::HTTP.get_response URI.parse website_url
-            redirect_url = response["location"]
+            response = Curl::Easy.http_get(website_url) do |curl|  
+              curl.proxy_tunnel = true
+              curl.proxy_url = ENV['POLIPO_PROXY']
+              curl.proxypwd = ENV['POLIPO_TOKEN']
+              curl.follow_location = false
+              curl.ssl_verify_peer = false
+            end
+            http_response, *http_headers = response.header_str.split(/[\r\n]+/).map(&:strip)
+            http_headers = Hash[http_headers.flat_map{ |s| s.scan(/^(\S+): (.+)/) }]
+            redirect_url = http_headers["location"]
           end
         end
         row << redirect_url
