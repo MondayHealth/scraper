@@ -122,10 +122,10 @@ module Jobs
         if license_number_and_state.nil?
             return nil
         end
-        license_number = license_number_and_state.match(/[0-9]+/).to_s
+        license_number = license_number_and_state.match(/([0-9]\s*)+/).to_s.strip
         row << license_number
 
-        license_state = license_number_and_state.sub(/[0-9]+\s*/, '')
+        license_state = license_number_and_state.match(/([a-z]+\s*)+$/i).to_s.strip
         row << license_state
 
         fees = extract_spans(doc, "Avg Cost (per session)")
