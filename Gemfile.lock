@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/MondayHealth/core.git
-  revision: ba14667c5bfd43364a615683de3092158740bc13
+  revision: 1be4ebe8c6fc8e6be866df35246dcda16713fc62
   specs:
     core (0.0.2)
       otr-activerecord (= 1.2.4)
