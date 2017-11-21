@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/MondayHealth/core.git
-  revision: f033e1b4d3278e9609e6613cab8a2bcbad3f8a51
+  revision: ba14667c5bfd43364a615683de3092158740bc13
   specs:
     core (0.0.2)
       otr-activerecord (= 1.2.4)
@@ -31,7 +31,7 @@ GEM
     hashie (3.5.6)
     hashie-forbidden_attributes (0.1.1)
       hashie (>= 3.0)
-    i18n (0.9.0)
+    i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     mini_portile2 (2.2.0)
     minitest (5.10.3)
