@@ -72,14 +72,14 @@ module Jobs
         row << phone
 
         website_url = doc.at_css('a[data-event-label="website"]').andand['href']
-        redirect_url = nil
-        if website_url
+        redirect_url = website_url
+
+        if website_url && !ENV['POLIPO_PROXY'].to_s.empty?
           with_retries(max_tries: 5, rescue: Curl::Err::CurlError) do
             # the site sends the user to a redirect URL, so pull that first
             response = Curl::Easy.http_get(website_url) do |curl|  
               curl.proxy_tunnel = true
               curl.proxy_url = ENV['POLIPO_PROXY']
-              curl.proxypwd = ENV['POLIPO_TOKEN']
               curl.follow_location = false
               curl.ssl_verify_peer = false
             end
