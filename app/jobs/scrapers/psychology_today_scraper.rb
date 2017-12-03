@@ -61,14 +61,20 @@ module Jobs
         provider_license = strip_with_nbsp(doc.at_css('.profile-title').text.strip.gsub(/\s+/, " "))
         row << provider_license
 
-        streetAddress = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="streetAddress"]').andand.inner_html.andand.gsub(/<br\/?>/, "\n"))
-        city = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="addressLocality"]').text)
-        state = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="addressRegion"]').text)
-        zip = strip_with_nbsp(doc.at_css('.profile-address span[itemprop="postalcode"]').text)
-        address = [streetAddress, "#{city}, #{state} #{zip}"].compact.join("\n")
+        # pages have two identical address wrappers for some reason
+        first_address_wrapper = doc.at_css('.profile-address')
+        address = first_address_wrapper.css('div[itemprop="address"]').map do |address_div|
+          streetAddress = strip_with_nbsp(address_div.at_css('span[itemprop="streetAddress"]').andand.inner_html.andand.gsub(/<br\/?>/, "\n"))
+          city = strip_with_nbsp(address_div.at_css('span[itemprop="addressLocality"]').text)
+          state = strip_with_nbsp(address_div.at_css('span[itemprop="addressRegion"]').text)
+          zip = strip_with_nbsp(address_div.at_css('span[itemprop="postalcode"]').text)
+          [streetAddress, "#{city}, #{state} #{zip}"].compact.join("\n")
+        end.join("\n\n")
         row << address
 
-        phone = strip_with_nbsp(doc.at_css('.profile-address a[data-event-label="Address1_PhoneLink"]').andand.text)
+        phone = first_address_wrapper.css('div[itemprop="address"]').map do |phone_div|
+          strip_with_nbsp(phone_div.at_css('a[data-event-label$="_PhoneLink"]').andand.text).strip
+        end.join("\n")
         row << phone
 
         website_url = doc.at_css('a[data-event-label="website"]').andand['href']
