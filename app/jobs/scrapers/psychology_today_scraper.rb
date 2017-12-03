@@ -176,7 +176,7 @@ module Jobs
       end
 
       def self.extract_list_items doc, header_title
-        nodes = doc.css("h3:contains('#{header_title}') + .row li")
+        nodes = doc.css("h3:contains('#{header_title}') + * li")
         return nil if nodes.empty?
         nodes.map(&:text).map(&:strip).join(";")
       end
