@@ -73,7 +73,7 @@ module Jobs
         row << address
 
         phone = first_address_wrapper.css('div[itemprop="address"]').map do |phone_div|
-          strip_with_nbsp(phone_div.at_css('a[data-event-label$="_PhoneLink"]').andand.text).strip
+          strip_with_nbsp(phone_div.at_css('a[data-event-label$="_PhoneLink"]').andand.text).andand.strip
         end.join("\n")
         row << phone
 
